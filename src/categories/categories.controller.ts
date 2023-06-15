@@ -6,9 +6,10 @@ export class CategoriesController {
   constructor(private categoryRepository: CategoriesRepository) {}
 
   @Get()
-  listAll() {
+  async index() {
+    const categories = await this.categoryRepository.getAll();
     return {
-      data: this.categoryRepository.getAll(),
+      data: categories,
     };
   }
 }

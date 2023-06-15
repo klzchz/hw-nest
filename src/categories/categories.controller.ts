@@ -3,7 +3,7 @@ import { CategoriesRepository } from './categories.repository';
 
 @Controller('categories')
 export class CategoriesController {
-  private categoryRepository: CategoriesRepository = new CategoriesRepository();
+  constructor(private categoryRepository: CategoriesRepository) {}
 
   @Get()
   listAll() {

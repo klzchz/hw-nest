@@ -1,20 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { CategoryEntity } from './category.entity';
 
 @Injectable()
 export class CategoriesRepository {
-  private categories = [
-    {
-      id: 'uuid.xpto',
-      name: 'test',
-      desc: 'desc cat',
-    },
-  ];
-  async getAll() {
+  private categories: CategoryEntity[] = [];
+
+  async getAll(): Promise<CategoryEntity[]> {
     return this.categories;
   }
-  async create(category: any) {
+  async create(category: CategoryEntity): Promise<CategoryEntity> {
     this.categories.push(category);
-
     return category;
   }
 }

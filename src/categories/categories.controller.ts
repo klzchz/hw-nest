@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CategoriesRepository } from './categories.repository';
 import { CreateCategoryDTO } from './dto/create-category.dto';
+import { CategoryEntity } from './category.entity';
 
 @Controller('categories')
 export class CategoriesController {
@@ -16,7 +17,11 @@ export class CategoriesController {
 
   @Post()
   async store(@Body() dataCategory: CreateCategoryDTO) {
-    const category = await this.categoryRepository.create(dataCategory);
+    const categoryEntity = new CategoryEntity(
+      dataCategory.name,
+      dataCategory.desc,
+    );
+    const category = await this.categoryRepository.create(categoryEntity);
     return {
       data: category,
     };

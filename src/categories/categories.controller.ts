@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CategoriesRepository } from './categories.repository';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { CategoryEntity } from './category.entity';
@@ -22,6 +29,19 @@ export class CategoriesController {
       dataCategory.desc,
     );
     const category = await this.categoryRepository.create(categoryEntity);
+    return {
+      data: category,
+    };
+  }
+
+  @Get('/:id')
+  async show(@Param('id') id: string) {
+    const category = await this.categoryRepository.findById(id);
+
+    if (!category) {
+      throw new NotFoundException('Category not Found');
+    }
+
     return {
       data: category,
     };

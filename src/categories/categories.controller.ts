@@ -5,10 +5,12 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CategoriesRepository } from './categories.repository';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { CategoryEntity } from './category.entity';
+import { UpdateCategoryDTO } from './dto/update-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -41,6 +43,15 @@ export class CategoriesController {
     if (!category) {
       throw new NotFoundException('Category not Found');
     }
+
+    return {
+      data: category,
+    };
+  }
+
+  @Put('/:id')
+  async update(@Param('id') id: string, @Body() data: UpdateCategoryDTO) {
+    const category = await this.categoryRepository.updateById(id, data);
 
     return {
       data: category,

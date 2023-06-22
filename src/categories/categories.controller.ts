@@ -13,6 +13,7 @@ import { CategoriesRepository } from './categories.repository';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { CategoryEntity } from './category.entity';
 import { UpdateCategoryDTO } from './dto/update-category.dto';
+import { ListCategoryDTO } from './dto/list-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -21,8 +22,18 @@ export class CategoriesController {
   @Get()
   async index() {
     const categories = await this.categoryRepository.getAll();
+
+    const allCategories = categories.map(
+      (category) =>
+        new ListCategoryDTO(
+          category.id,
+          category.name,
+          category.desc,
+          category.date,
+        ),
+    );
     return {
-      data: categories,
+      data: allCategories,
     };
   }
 
@@ -34,7 +45,12 @@ export class CategoriesController {
     );
     const category = await this.categoryRepository.create(categoryEntity);
     return {
-      data: category,
+      data: new ListCategoryDTO(
+        category.id,
+        category.name,
+        category.desc,
+        category.date,
+      ),
     };
   }
 
@@ -47,7 +63,12 @@ export class CategoriesController {
     }
 
     return {
-      data: category,
+      data: new ListCategoryDTO(
+        category.id,
+        category.name,
+        category.desc,
+        category.date,
+      ),
     };
   }
 
@@ -56,7 +77,12 @@ export class CategoriesController {
     const category = await this.categoryRepository.updateById(id, data);
 
     return {
-      data: category,
+      data: new ListCategoryDTO(
+        category.id,
+        category.name,
+        category.desc,
+        category.date,
+      ),
     };
   }
   @Delete('/:id')

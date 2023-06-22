@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -52,6 +54,15 @@ export class CategoriesController {
   @Put('/:id')
   async update(@Param('id') id: string, @Body() data: UpdateCategoryDTO) {
     const category = await this.categoryRepository.updateById(id, data);
+
+    return {
+      data: category,
+    };
+  }
+  @Delete('/:id')
+  @HttpCode(204)
+  async destroy(@Param('id') id: string) {
+    const category = await this.categoryRepository.deleteById(id);
 
     return {
       data: category,
